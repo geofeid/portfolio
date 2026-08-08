@@ -1,0 +1,7 @@
+{
+  "/OnlineCV": {
+    "target": "http://localhost:5500",
+    "secure": false,
+    "pathRewrite": { "^/OnlineCV": "" }
+  }
+}

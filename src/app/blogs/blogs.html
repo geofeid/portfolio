@@ -1,0 +1,22 @@
+<section class="container">
+  @if (data.content(); as c) {
+    <div class="main-title">
+      <h2>My <span>Blogs</span><span class="bg-text">My Blogs</span></h2>
+    </div>
+    <div class="blogs">
+      @for (b of c.blogs; track b.title) {
+        <div class="blog">
+          <a [href]="b.link" target="_blank">
+            <img [src]="'img/' + b.image" [alt]="b.title" />
+          </a>
+          <div class="blog-text">
+            <a [href]="b.link" target="_blank">
+              <h4>{{ b.title }}</h4>
+            </a>
+            <p>{{ b.description }}</p>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</section>

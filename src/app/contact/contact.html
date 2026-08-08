@@ -1,0 +1,71 @@
+<section class="container">
+  @if (data.content(); as c) {
+    <div class="main-title">
+      <h2>Contact <span>Me</span><span class="bg-text">Contact</span></h2>
+    </div>
+    <div class="contact-content-con">
+      <div class="left-contact">
+        <h4>Contact me here</h4>
+        <p class="contact-intro">{{ c.contact.intro }}</p>
+        <div class="contact-info">
+          @for (item of c.contact.items; track item.label) {
+            <div class="contact-item">
+              <div class="icon">
+                <i [class]="item.icon"></i>
+                <span>{{ item.label }}</span>
+              </div>
+              @if (item.href) {
+                <p><a [href]="item.href">{{ item.value }}</a></p>
+              } @else {
+                <p>{{ item.value }}</p>
+              }
+            </div>
+          }
+        </div>
+        <div class="contact-icons">
+          <div class="contact-icon">
+            @for (s of c.contact.socials; track s.href) {
+              <a [href]="s.href" target="_blank">
+                <i [class]="s.icon"></i>
+              </a>
+            }
+          </div>
+        </div>
+        <div class="btn-con">
+          <button class="main-btn" type="button" (click)="addToContacts()">
+            <span class="btn-text">Add to Contacts</span>
+            <span class="btn-icon"><i class="fas fa-address-book"></i></span>
+          </button>
+        </div>
+        @if (showQr()) {
+          <div class="qr-con">
+            <p>Scan with your phone to save my contact card:</p>
+            <img [src]="'img/' + c.contact.qrImage" alt="Contact QR code" />
+          </div>
+        }
+      </div>
+      <div class="right-contact">
+        <form [action]="c.contact.formAction" method="POST" class="contact-form">
+          <input type="hidden" name="_next" [value]="c.contact.formRedirect" />
+          <input type="text" name="_honey" style="display: none" />
+          <div class="input-control i-c-2">
+            <input type="text" name="name" required placeholder="YOUR NAME" />
+            <input type="email" name="email" required placeholder="YOUR EMAIL" />
+          </div>
+          <div class="input-control">
+            <input type="text" name="subject" required placeholder="ENTER SUBJECT" />
+          </div>
+          <div class="input-control">
+            <textarea name="message" id="message" cols="15" rows="8" placeholder="Message Here..." required></textarea>
+          </div>
+          <div class="submit-btn btn-con">
+            <button type="submit" class="main-btn">
+              <span class="btn-text">Send Message</span>
+              <span class="btn-icon"><i class="fas fa-paper-plane"></i></span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</section>
