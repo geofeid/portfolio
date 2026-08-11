@@ -11,7 +11,9 @@ export class ContentService {
   readonly error = signal<string | null>(null);
 
   constructor() {
-    fetch(CONTENT_URL)
+    // Revalidate every load: content changes in the Online_CV repo should show up
+    // here without waiting for an HTTP cache to expire.
+    fetch(CONTENT_URL, { cache: 'no-cache' })
       .then((response) => {
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         return response.json();
