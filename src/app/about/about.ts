@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { ContentService } from '../content.service';
-import { TimelineEntry } from '../models';
+import { Skill, TimelineEntry } from '../models';
 
 type FilterId = 'work' | 'learning' | 'all';
 
@@ -16,6 +16,22 @@ const FILTERS: TimelineFilter[] = [
   { id: 'all', label: 'Chronologically', types: ['job', 'internship', 'cert', 'education'] },
 ];
 
+type SkillFilterId = Skill['category'] | 'all';
+
+interface SkillFilter {
+  id: SkillFilterId;
+  label: string;
+  categories: Skill['category'][];
+}
+
+const SKILL_FILTERS: SkillFilter[] = [
+  { id: 'frontend', label: 'Front end', categories: ['frontend'] },
+  { id: 'backend', label: 'Back end', categories: ['backend'] },
+  { id: 'devops', label: 'DevOps', categories: ['devops'] },
+  { id: 'other', label: 'Other', categories: ['other'] },
+  { id: 'all', label: 'All', categories: ['frontend', 'backend', 'devops', 'other'] },
+];
+
 @Component({
   selector: 'app-about',
   templateUrl: './about.html',
@@ -25,6 +41,16 @@ export class About {
   protected readonly data = inject(ContentService);
   protected readonly filters = FILTERS;
   protected readonly activeFilter = signal<FilterId>('work');
+
+  protected readonly skillFilters = SKILL_FILTERS;
+  protected readonly activeSkillFilter = signal<SkillFilterId>('frontend');
+
+  /** Strongest first within the selected category. */
+  protected readonly visibleSkills = computed(() => {
+    const skills = this.data.content()?.skills ?? [];
+    const categories = SKILL_FILTERS.find((f) => f.id === this.activeSkillFilter())!.categories;
+    return skills.filter((skill) => categories.includes(skill.category));
+  });
 
   private readonly expanded = signal<ReadonlySet<string>>(new Set());
 
@@ -44,6 +70,15 @@ export class About {
 
   selectFilter(id: FilterId): void {
     this.activeFilter.set(id);
+  }
+
+  skillCountFor(filter: SkillFilter): number {
+    const skills = this.data.content()?.skills ?? [];
+    return skills.filter((skill) => filter.categories.includes(skill.category)).length;
+  }
+
+  selectSkillFilter(id: SkillFilterId): void {
+    this.activeSkillFilter.set(id);
   }
 
   // Keyed by entry, not index, so expansion survives filter changes.

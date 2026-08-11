@@ -31,8 +31,23 @@
 
     <div class="about-stats">
       <h4 class="stat-title">My Skills</h4>
+
+      <div class="chip-filters" role="group" aria-label="Filter skills">
+        @for (f of skillFilters; track f.id) {
+          <button
+            type="button"
+            class="chip-filter"
+            [class.is-active]="activeSkillFilter() === f.id"
+            [attr.aria-pressed]="activeSkillFilter() === f.id"
+            (click)="selectSkillFilter(f.id)"
+          >
+            {{ f.label }} <span class="chip-count">{{ skillCountFor(f) }}</span>
+          </button>
+        }
+      </div>
+
       <div class="progress-bars">
-        @for (s of c.skills; track s.name) {
+        @for (s of visibleSkills(); track s.name) {
           <div class="progress-bar">
             <p class="prog-title">{{ s.name }}</p>
             <div class="progress-con">
@@ -48,16 +63,16 @@
 
     <h4 class="stat-title">My Timeline</h4>
 
-    <div class="tl-filters" role="group" aria-label="Filter timeline">
+    <div class="chip-filters" role="group" aria-label="Filter timeline">
       @for (f of filters; track f.id) {
         <button
           type="button"
-          class="tl-filter"
+          class="chip-filter"
           [class.is-active]="activeFilter() === f.id"
           [attr.aria-pressed]="activeFilter() === f.id"
           (click)="selectFilter(f.id)"
         >
-          {{ f.label }} <span class="tl-filter-count">{{ countFor(f) }}</span>
+          {{ f.label }} <span class="chip-count">{{ countFor(f) }}</span>
         </button>
       }
     </div>
