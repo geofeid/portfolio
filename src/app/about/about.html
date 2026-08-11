@@ -49,13 +49,45 @@
     <h4 class="stat-title">My Timeline</h4>
     <div class="timeline">
       @for (t of c.timeline; track $index) {
-        <div class="timeline-item">
+        <div class="timeline-item" [class.is-expanded]="isExpanded($index)">
           <div class="tl-icon">
             <i class="fas" [class]="'fas ' + iconFor(t)"></i>
           </div>
           <p class="tl-duration">{{ t.date }}</p>
           <h5>{{ t.title }}<span> - {{ t.org }}</span></h5>
-          <p class="tl-body">{{ t.body }}</p>
+          <p class="tl-summary">{{ t.summary }}</p>
+
+          @if (t.link) {
+            <a class="tl-link" [href]="t.link.url" target="_blank">
+              {{ t.link.label }} <i class="fas fa-arrow-up-right-from-square"></i>
+            </a>
+          }
+
+          @if (isExpanded($index)) {
+            <div class="tl-details">
+              @for (section of t.sections; track section.title) {
+                <div class="tl-section">
+                  <h6>{{ section.title }}</h6>
+                  <ul>
+                    @for (item of section.items; track $index) {
+                      <li>{{ item }}</li>
+                    }
+                  </ul>
+                </div>
+              }
+            </div>
+          }
+
+          @if (t.sections.length) {
+            <button type="button" class="tl-toggle" (click)="toggle($index)">
+              @if (isExpanded($index)) {
+                Show less <i class="fas fa-chevron-up"></i>
+              } @else {
+                See more <span class="tl-count">({{ detailCount(t) }})</span>
+                <i class="fas fa-chevron-down"></i>
+              }
+            </button>
+          }
         </div>
       }
     </div>

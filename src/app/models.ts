@@ -10,12 +10,21 @@ export interface Skill {
   percent: string;
 }
 
+export interface TimelineSection {
+  title: string;
+  items: string[];
+}
+
 export interface TimelineEntry {
   type: 'job' | 'cert' | 'internship' | 'education';
   date: string;
   title: string;
   org: string;
-  body: string;
+  /** Always visible, kept to a similar length across entries so cards stay even. */
+  summary: string;
+  /** Revealed by "See more"; empty when the summary says it all. */
+  sections: TimelineSection[];
+  link?: { label: string; url: string };
 }
 
 export interface Project {

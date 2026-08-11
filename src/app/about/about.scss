@@ -131,6 +131,8 @@
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 2rem;
   padding-bottom: 3rem;
+  /* an expanded card grows on its own instead of stretching its row neighbour */
+  align-items: start;
 
   .timeline-item {
     position: relative;
@@ -177,10 +179,106 @@
       }
     }
 
-    .tl-body {
+    .tl-summary {
       color: var(--color-grey-2);
-      white-space: pre-line;
+      line-height: 1.9rem;
     }
+
+    .tl-link {
+      margin-top: 0.8rem;
+      color: var(--color-secondary);
+      font-weight: 500;
+      border-bottom: 1px solid transparent;
+      transition: all 0.4s ease-in-out;
+
+      i {
+        font-size: 0.8rem;
+        margin-left: 0.3rem;
+      }
+
+      &:hover {
+        border-bottom-color: var(--color-secondary);
+      }
+    }
+
+    .tl-details {
+      margin-top: 1.2rem;
+      animation: tl-reveal 0.4s ease-in-out;
+
+      .tl-section + .tl-section {
+        margin-top: 1.4rem;
+      }
+
+      h6 {
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--color-secondary);
+        margin-bottom: 0.6rem;
+      }
+
+      ul li {
+        position: relative;
+        padding-left: 1.2rem;
+        margin-bottom: 0.6rem;
+        color: var(--color-grey-2);
+        line-height: 1.8rem;
+
+        &::before {
+          content: "";
+          position: absolute;
+          left: 0;
+          top: 0.85rem;
+          width: 0.5rem;
+          height: 2px;
+          background-color: var(--color-secondary);
+        }
+      }
+    }
+
+    .tl-toggle {
+      margin-top: 1rem;
+      padding: 0.35rem 0;
+      background: none;
+      border: none;
+      color: var(--color-secondary);
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.4s ease-in-out;
+
+      .tl-count {
+        color: var(--color-grey-2);
+        font-weight: 500;
+      }
+
+      i {
+        font-size: 0.75rem;
+        transition: transform 0.4s ease-in-out;
+      }
+
+      &:hover {
+        opacity: 0.75;
+      }
+    }
+  }
+}
+
+@keyframes tl-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
