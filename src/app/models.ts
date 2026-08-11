@@ -17,6 +17,8 @@ export interface TimelineSection {
 
 export interface TimelineEntry {
   type: 'job' | 'cert' | 'internship' | 'education';
+  /** Sortable start date, "YYYY-MM". Set in content so nothing parses `date` at runtime. */
+  start: string;
   date: string;
   title: string;
   org: string;

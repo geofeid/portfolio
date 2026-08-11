@@ -47,9 +47,24 @@
     </div>
 
     <h4 class="stat-title">My Timeline</h4>
+
+    <div class="tl-filters" role="group" aria-label="Filter timeline">
+      @for (f of filters; track f.id) {
+        <button
+          type="button"
+          class="tl-filter"
+          [class.is-active]="activeFilter() === f.id"
+          [attr.aria-pressed]="activeFilter() === f.id"
+          (click)="selectFilter(f.id)"
+        >
+          {{ f.label }} <span class="tl-filter-count">{{ countFor(f) }}</span>
+        </button>
+      }
+    </div>
+
     <div class="timeline">
-      @for (t of c.timeline; track $index) {
-        <div class="timeline-item" [class.is-expanded]="isExpanded($index)">
+      @for (t of visibleEntries(); track t.org + t.title) {
+        <div class="timeline-item" [class.is-expanded]="isExpanded(t)">
           <div class="tl-icon">
             <i class="fas" [class]="'fas ' + iconFor(t)"></i>
           </div>
@@ -63,7 +78,7 @@
             </a>
           }
 
-          @if (isExpanded($index)) {
+          @if (isExpanded(t)) {
             <div class="tl-details">
               @for (section of t.sections; track section.title) {
                 <div class="tl-section">
@@ -79,8 +94,8 @@
           }
 
           @if (t.sections.length) {
-            <button type="button" class="tl-toggle" (click)="toggle($index)">
-              @if (isExpanded($index)) {
+            <button type="button" class="tl-toggle" (click)="toggle(t)">
+              @if (isExpanded(t)) {
                 Show less <i class="fas fa-chevron-up"></i>
               } @else {
                 See more <span class="tl-count">({{ detailCount(t) }})</span>
