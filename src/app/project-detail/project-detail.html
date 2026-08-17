@@ -12,6 +12,23 @@
       </p>
       @if (p.caseStudy) {
         <p class="headline">{{ p.caseStudy.headline }}</p>
+
+        @if (p.caseStudy.facts; as f) {
+          <dl class="facts">
+            <div>
+              <dt>Team</dt>
+              <dd>{{ f.team }}</dd>
+            </div>
+            <div>
+              <dt>Status</dt>
+              <dd>{{ f.status }}</dd>
+            </div>
+            <div>
+              <dt>Year</dt>
+              <dd>{{ p.year }}</dd>
+            </div>
+          </dl>
+        }
       }
 
       <div class="links">

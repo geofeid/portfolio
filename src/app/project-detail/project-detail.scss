@@ -50,6 +50,30 @@
     color: var(--color-grey-1);
   }
 
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2.5rem;
+    margin-top: 1.8rem;
+    padding: 1.1rem 1.4rem;
+    border: 1px solid var(--color-grey-5);
+    border-radius: 12px;
+    background-color: var(--color-grey-5);
+
+    dt {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--color-grey-2);
+      margin-bottom: 0.2rem;
+    }
+
+    dd {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+  }
+
   .links {
     display: flex;
     flex-wrap: wrap;

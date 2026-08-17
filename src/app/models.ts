@@ -31,6 +31,8 @@ export interface TimelineEntry {
 }
 
 export interface CaseStudy {
+  /** Quick facts a recruiter scans before reading anything else. */
+  facts?: { team: string; status: string };
   headline: string;
   context: string;
   goal: string;
