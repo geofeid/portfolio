@@ -5,16 +5,16 @@
     </a>
 
     <header class="case-header">
-      <span class="badge">{{ labelFor(p) }}</span>
-      <h1>{{ p.name }}</h1>
-      <p class="meta">
+      <span class="badge" appReveal="0">{{ labelFor(p) }}</span>
+      <h1 appReveal="1">{{ p.name }}</h1>
+      <p class="meta" appReveal="2">
         {{ p.year }}@if (p.org) { <span> · {{ p.org }}</span> }
       </p>
       @if (p.caseStudy) {
-        <p class="headline">{{ p.caseStudy.headline }}</p>
+        <p class="headline" appReveal="3">{{ p.caseStudy.headline }}</p>
 
         @if (p.caseStudy.facts; as f) {
-          <dl class="facts">
+          <dl class="facts" appReveal="4">
             <div>
               <dt>Team</dt>
               <dd>{{ f.team }}</dd>
@@ -31,7 +31,7 @@
         }
       }
 
-      <div class="links">
+      <div class="links" appReveal="5">
         @if (p.live) {
           <a [href]="p.live" target="_blank" class="link-btn is-primary">
             <i class="fas fa-arrow-up-right-from-square"></i> Live site
@@ -51,71 +51,91 @@
     </header>
 
     @if (p.image) {
-      <div class="hero-shot">
+      <div class="hero-shot" appReveal>
         <img [src]="'img/' + p.image" [alt]="p.name + ' screenshot'" />
       </div>
     }
 
     @if (p.caseStudy; as cs) {
-      <div class="case-body">
-        <section class="block">
-          <h2>Context</h2>
-          <p>{{ cs.context }}</p>
-        </section>
+      <div class="case-layout">
+        <nav class="rail" aria-label="Sections">
+          <ul>
+            @for (s of sections(); track s.id) {
+              <li>
+                <button
+                  type="button"
+                  [class.is-active]="activeSection() === s.id"
+                  (click)="scrollTo(s.id)"
+                >
+                  {{ s.label }}
+                </button>
+              </li>
+            }
+          </ul>
+        </nav>
 
-        <section class="block">
-          <h2>Goal</h2>
-          <p>{{ cs.goal }}</p>
-        </section>
+        <div class="case-body">
+          <section class="block" id="context" appReveal>
+            <h2>Context</h2>
+            <p>{{ cs.context }}</p>
+          </section>
 
-        <section class="block">
-          <h2>My role</h2>
-          <p>{{ cs.role }}</p>
-        </section>
+          <div class="pair">
+            <section class="block" id="goal" appReveal="0">
+              <h2>Goal</h2>
+              <p>{{ cs.goal }}</p>
+            </section>
 
-        @if (cs.challenges?.length) {
-          <section class="block">
-            <h2>Challenges</h2>
+            <section class="block" appReveal="1">
+              <h2>My role</h2>
+              <p>{{ cs.role }}</p>
+            </section>
+          </div>
+
+          @if (cs.challenges?.length) {
+            <section class="block" id="challenges" appReveal>
+              <h2>Challenges</h2>
+              <ul class="bullets">
+                @for (item of cs.challenges; track $index) {
+                  <li [appReveal]="$index">{{ item }}</li>
+                }
+              </ul>
+            </section>
+          }
+
+          <section class="block" id="approach" appReveal>
+            <h2>Approach</h2>
             <ul class="bullets">
-              @for (item of cs.challenges; track $index) {
-                <li>{{ item }}</li>
+              @for (item of cs.approach; track $index) {
+                <li [appReveal]="$index">{{ item }}</li>
               }
             </ul>
           </section>
-        }
 
-        <section class="block">
-          <h2>Approach</h2>
-          <ul class="bullets">
-            @for (item of cs.approach; track $index) {
-              <li>{{ item }}</li>
-            }
-          </ul>
-        </section>
+          @if (cs.results.length) {
+            <section class="block is-results" id="results" appReveal>
+              <h2>Results</h2>
+              <ul class="bullets">
+                @for (item of cs.results; track $index) {
+                  <li [appReveal]="$index">{{ item }}</li>
+                }
+              </ul>
+            </section>
+          }
 
-        @if (cs.results.length) {
-          <section class="block">
-            <h2>Results</h2>
-            <ul class="bullets">
-              @for (item of cs.results; track $index) {
-                <li>{{ item }}</li>
+          <section class="block" id="stack" appReveal>
+            <h2>Built with</h2>
+            <ul class="tech">
+              @for (t of p.tech; track t) {
+                <li [appReveal]="$index">{{ t }}</li>
               }
             </ul>
           </section>
-        }
-
-        <section class="block">
-          <h2>Built with</h2>
-          <ul class="tech">
-            @for (t of p.tech; track t) {
-              <li>{{ t }}</li>
-            }
-          </ul>
-        </section>
+        </div>
       </div>
     } @else {
       <div class="case-body">
-        <section class="block">
+        <section class="block" appReveal>
           <h2>About</h2>
           <p>{{ p.description }}</p>
           <ul class="tech">
@@ -128,11 +148,11 @@
     }
 
     @if (related().length) {
-      <section class="related">
+      <section class="related" appReveal>
         <h2>More from {{ p.org }}</h2>
         <div class="related-list">
-          @for (r of related(); track r.slug) {
-            <a class="related-item" [routerLink]="['/portfolio', r.slug]">
+          @for (r of related(); track r.slug; let i = $index) {
+            <a class="related-item" [routerLink]="['/portfolio', r.slug]" [appReveal]="i">
               <h3>{{ r.name }}</h3>
               <p>{{ r.description }}</p>
               <span class="go">Read the case study <i class="fas fa-arrow-right"></i></span>

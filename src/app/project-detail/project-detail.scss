@@ -133,11 +133,73 @@
   }
 }
 
-.case-body {
+/* Sticky section rail beside the narrative — the "presentation" part. */
+.case-layout {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2.5rem 3rem;
+  grid-template-columns: 12rem 1fr;
+  gap: 3.5rem;
   margin-top: 3rem;
+}
+
+.rail {
+  position: sticky;
+  top: 6rem;
+  align-self: start;
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    border-left: 1px solid var(--color-grey-5);
+  }
+
+  button {
+    width: 100%;
+    text-align: left;
+    padding: 0.5rem 0 0.5rem 1rem;
+    margin-left: -1px;
+    border: none;
+    border-left: 2px solid transparent;
+    background: none;
+    color: var(--color-grey-3);
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      color: var(--color-white);
+    }
+
+    &.is-active {
+      color: var(--color-secondary);
+      border-left-color: var(--color-secondary);
+    }
+  }
+}
+
+.case-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2.8rem;
+
+  .pair {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.8rem;
+  }
+
+  /* the outcome section carries the weight, so it gets a frame */
+  .block.is-results {
+    padding: 1.6rem 1.8rem;
+    border: 1px solid var(--color-grey-5);
+    border-left: 3px solid var(--color-secondary);
+    border-radius: 12px;
+    background-color: color-mix(in srgb, var(--color-grey-5) 45%, transparent);
+  }
 
   .block {
     h2 {
@@ -152,13 +214,6 @@
       color: var(--color-grey-2);
       line-height: 2rem;
     }
-  }
-
-  /* narrative and list blocks read better full width; goal/role stay side by side */
-  .block:first-child,
-  .block:has(.bullets),
-  .block:last-child {
-    grid-column: 1 / -1;
   }
 
   .bullets {
@@ -271,8 +326,38 @@
   }
 }
 
+@media screen and (max-width: 1250px) {
+  .case-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .rail {
+    position: static;
+
+    ul {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      border-left: none;
+    }
+
+    button {
+      width: auto;
+      padding: 0.4rem 1rem;
+      margin-left: 0;
+      border: 1px solid var(--color-grey-5);
+      border-radius: 30px;
+
+      &.is-active {
+        border-color: var(--color-secondary);
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 970px) {
-  .case-body {
+  .case-body .pair {
     grid-template-columns: 1fr;
   }
 
