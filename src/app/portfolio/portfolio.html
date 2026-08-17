@@ -62,8 +62,13 @@
             }
 
             <div class="links">
+              @if (p.slug) {
+                <a [routerLink]="['/portfolio', p.slug]" class="link-btn is-primary">
+                  <i class="fas fa-book-open"></i> Case study
+                </a>
+              }
               @if (p.live) {
-                <a [href]="p.live" target="_blank" class="link-btn is-primary">
+                <a [href]="p.live" target="_blank" class="link-btn">
                   <i class="fas fa-arrow-up-right-from-square"></i> Live site
                 </a>
               }

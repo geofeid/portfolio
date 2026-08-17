@@ -1,4 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { ContentService } from '../content.service';
 import { Project } from '../models';
 
@@ -31,6 +32,7 @@ const TYPE_ICON: Record<Project['type'], string> = {
 
 @Component({
   selector: 'app-portfolio',
+  imports: [RouterLink],
   templateUrl: './portfolio.html',
   styleUrl: './portfolio.scss',
 })

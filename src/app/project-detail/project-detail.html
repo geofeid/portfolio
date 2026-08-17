@@ -1,0 +1,122 @@
+<section class="container">
+  @if (project(); as p) {
+    <a class="back" routerLink="/portfolio">
+      <i class="fas fa-arrow-left"></i> All projects
+    </a>
+
+    <header class="case-header">
+      <span class="badge">{{ labelFor(p) }}</span>
+      <h1>{{ p.name }}</h1>
+      <p class="meta">
+        {{ p.year }}@if (p.org) { <span> · {{ p.org }}</span> }
+      </p>
+      @if (p.caseStudy) {
+        <p class="headline">{{ p.caseStudy.headline }}</p>
+      }
+
+      <div class="links">
+        @if (p.live) {
+          <a [href]="p.live" target="_blank" class="link-btn is-primary">
+            <i class="fas fa-arrow-up-right-from-square"></i> Live site
+          </a>
+        }
+        @if (p.github) {
+          <a [href]="p.github" target="_blank" class="link-btn">
+            <i class="fab fa-github"></i> Source code
+          </a>
+        }
+        @if (!p.live && !p.github) {
+          <span class="no-link">
+            <i class="fas fa-lock"></i> Client project — code and screenshots are not public
+          </span>
+        }
+      </div>
+    </header>
+
+    @if (p.image) {
+      <div class="hero-shot">
+        <img [src]="'img/' + p.image" [alt]="p.name + ' screenshot'" />
+      </div>
+    }
+
+    @if (p.caseStudy; as cs) {
+      <div class="case-body">
+        <section class="block">
+          <h2>Context</h2>
+          <p>{{ cs.context }}</p>
+        </section>
+
+        <section class="block">
+          <h2>Goal</h2>
+          <p>{{ cs.goal }}</p>
+        </section>
+
+        <section class="block">
+          <h2>My role</h2>
+          <p>{{ cs.role }}</p>
+        </section>
+
+        <section class="block">
+          <h2>Approach</h2>
+          <ul class="bullets">
+            @for (item of cs.approach; track $index) {
+              <li>{{ item }}</li>
+            }
+          </ul>
+        </section>
+
+        @if (cs.results.length) {
+          <section class="block">
+            <h2>Results</h2>
+            <ul class="bullets">
+              @for (item of cs.results; track $index) {
+                <li>{{ item }}</li>
+              }
+            </ul>
+          </section>
+        }
+
+        <section class="block">
+          <h2>Built with</h2>
+          <ul class="tech">
+            @for (t of p.tech; track t) {
+              <li>{{ t }}</li>
+            }
+          </ul>
+        </section>
+      </div>
+    } @else {
+      <div class="case-body">
+        <section class="block">
+          <h2>About</h2>
+          <p>{{ p.description }}</p>
+          <ul class="tech">
+            @for (t of p.tech; track t) {
+              <li>{{ t }}</li>
+            }
+          </ul>
+        </section>
+      </div>
+    }
+
+    @if (related().length) {
+      <section class="related">
+        <h2>More from {{ p.org }}</h2>
+        <div class="related-list">
+          @for (r of related(); track r.slug) {
+            <a class="related-item" [routerLink]="['/portfolio', r.slug]">
+              <h3>{{ r.name }}</h3>
+              <p>{{ r.description }}</p>
+              <span class="go">Read the case study <i class="fas fa-arrow-right"></i></span>
+            </a>
+          }
+        </div>
+      </section>
+    }
+  } @else if (data.content()) {
+    <div class="not-found">
+      <h1>Project not found</h1>
+      <a class="link-btn is-primary" routerLink="/portfolio">Back to all projects</a>
+    </div>
+  }
+</section>

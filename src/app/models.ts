@@ -30,8 +30,20 @@ export interface TimelineEntry {
   link?: { label: string; url: string };
 }
 
+export interface CaseStudy {
+  headline: string;
+  context: string;
+  goal: string;
+  role: string;
+  approach: string[];
+  results: string[];
+}
+
 export interface Project {
   name: string;
+  /** URL segment for the detail page; absent means the card has no case study yet. */
+  slug?: string;
+  caseStudy?: CaseStudy;
   /** corporate = client work, personal = shipped and maintained by me, academy = coursework */
   type: 'corporate' | 'personal' | 'academy';
   year: string;
