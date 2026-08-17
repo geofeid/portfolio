@@ -1,3 +1,5 @@
+<div class="reading-progress" [style.--progress.%]="readingProgress()" aria-hidden="true"></div>
+
 <section class="container">
   @if (project(); as p) {
     <a class="back" routerLink="/portfolio">
@@ -18,6 +20,19 @@
             <div>
               <dt>Team</dt>
               <dd>{{ f.team }}</dd>
+              @if (teamMarkers(); as t) {
+                <div class="team-dots" [attr.aria-label]="t.label">
+                  @for (d of t.solid; track $index) {
+                    <span class="dot is-solid" [style.--reveal-index]="$index"></span>
+                  }
+                  @for (d of t.outlined; track $index) {
+                    <span class="dot" [style.--reveal-index]="t.solid.length + $index"></span>
+                  }
+                  @if (t.extra) {
+                    <span class="dot-extra">+{{ t.extra }}</span>
+                  }
+                </div>
+              }
             </div>
             <div>
               <dt>Status</dt>
@@ -118,6 +133,24 @@
               <ul class="bullets">
                 @for (item of cs.results; track $index) {
                   <li [appReveal]="$index">{{ item }}</li>
+                }
+              </ul>
+            </section>
+          }
+
+          @if (appliedSkills().length) {
+            <section class="block is-skills" id="skills" appReveal>
+              <h2>Skills applied</h2>
+              <p class="skills-note">My rated proficiency in the tools this project used.</p>
+              <ul class="skill-chart">
+                @for (s of appliedSkills(); track s.name; let i = $index) {
+                  <li [appReveal]="i">
+                    <span class="skill-name">{{ s.name }}</span>
+                    <span class="skill-track">
+                      <span class="skill-fill" [style.--target]="s.percent"></span>
+                    </span>
+                    <span class="skill-value">{{ s.percent }}</span>
+                  </li>
                 }
               </ul>
             </section>
