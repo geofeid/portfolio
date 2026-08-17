@@ -32,11 +32,16 @@ export interface TimelineEntry {
 
 export interface Project {
   name: string;
-  image: string;
-  description: string | null;
+  /** product = shipped and maintained now, professional = client work, academy = coursework */
+  type: 'product' | 'professional' | 'academy';
+  year: string;
+  org?: string;
+  description: string;
+  tech: string[];
+  highlights: string[];
+  image?: string | null;
   github: string | null;
   live: string | null;
-  youtube: string | null;
 }
 
 export interface Blog {

@@ -3,34 +3,83 @@
     <div class="main-title">
       <h2>My <span>Portfolio</span><span class="bg-text">My Work</span></h2>
     </div>
-    <p class="port-text">Here is some of my work that I've done in various programming languages.</p>
+    <p class="port-text">
+      What I build at work, and what I build on my own time.
+    </p>
+
+    <div class="chip-filters" role="group" aria-label="Filter projects">
+      @for (f of filters; track f.id) {
+        <button
+          type="button"
+          class="chip-filter"
+          [class.is-active]="activeFilter() === f.id"
+          [attr.aria-pressed]="activeFilter() === f.id"
+          (click)="selectFilter(f.id)"
+        >
+          {{ f.label }} <span class="chip-count">{{ countFor(f) }}</span>
+        </button>
+      }
+    </div>
+
     <div class="portfolios">
-      @for (p of c.projects; track p.name) {
-        <div class="portfolio-item">
-          <div class="image">
-            <img [src]="'img/' + p.image" [alt]="p.name" />
+      @for (p of visibleProjects(); track p.name) {
+        <article class="portfolio-item" [class]="'is-' + p.type">
+          <div class="thumb">
+            @if (p.image) {
+              <img [src]="'img/' + p.image" [alt]="p.name + ' screenshot'" loading="lazy" />
+            } @else {
+              <div class="thumb-placeholder">
+                <i class="fas" [class]="'fas ' + iconFor(p)"></i>
+              </div>
+            }
+            <span class="badge">{{ labelFor(p) }}</span>
           </div>
-          <div class="hover-items">
-            <h3>{{ p.name }}</h3>
-            <div class="icons">
-              @if (p.github) {
-                <a [href]="p.github" target="_blank" class="icon" aria-label="GitHub repo">
-                  <i class="fab fa-github"></i>
-                </a>
-              }
+
+          <div class="body">
+            <header>
+              <h3>{{ p.name }}</h3>
+              <p class="meta">
+                {{ p.year }}@if (p.org) { <span> · {{ p.org }}</span> }
+              </p>
+            </header>
+
+            <p class="desc">{{ p.description }}</p>
+
+            @if (p.highlights.length) {
+              <ul class="highlights">
+                @for (h of p.highlights; track $index) {
+                  <li>{{ h }}</li>
+                }
+              </ul>
+            }
+
+            @if (p.tech.length) {
+              <ul class="tech">
+                @for (t of p.tech; track t) {
+                  <li>{{ t }}</li>
+                }
+              </ul>
+            }
+
+            <div class="links">
               @if (p.live) {
-                <a [href]="p.live" target="_blank" class="icon" aria-label="Live site">
-                  <i class="fas fa-globe"></i>
+                <a [href]="p.live" target="_blank" class="link-btn is-primary">
+                  <i class="fas fa-arrow-up-right-from-square"></i> Live site
                 </a>
               }
-              @if (p.youtube) {
-                <a [href]="p.youtube" target="_blank" class="icon" aria-label="Video demo">
-                  <i class="fab fa-youtube"></i>
+              @if (p.github) {
+                <a [href]="p.github" target="_blank" class="link-btn">
+                  <i class="fab fa-github"></i> Code
                 </a>
+              }
+              @if (!p.live && !p.github) {
+                <span class="no-link">
+                  <i class="fas fa-lock"></i> Client project — code not public
+                </span>
               }
             </div>
           </div>
-        </div>
+        </article>
       }
     </div>
   }
