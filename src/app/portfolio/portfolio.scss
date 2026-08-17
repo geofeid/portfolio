@@ -79,8 +79,8 @@
       }
     }
 
-    &.is-product .thumb .badge,
-    &.is-professional .thumb .badge {
+    &.is-personal .thumb .badge,
+    &.is-corporate .thumb .badge {
       background-color: var(--color-secondary);
     }
 

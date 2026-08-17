@@ -2,7 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { ContentService } from '../content.service';
 import { Project } from '../models';
 
-type ProjectFilterId = 'featured' | 'academy' | 'all';
+type ProjectFilterId = 'corporate' | 'personal' | 'academy' | 'all';
 
 interface ProjectFilter {
   id: ProjectFilterId;
@@ -11,20 +11,21 @@ interface ProjectFilter {
 }
 
 const PROJECT_FILTERS: ProjectFilter[] = [
-  { id: 'featured', label: 'Featured', types: ['product', 'professional'] },
-  { id: 'academy', label: 'Academy projects', types: ['academy'] },
-  { id: 'all', label: 'All', types: ['product', 'professional', 'academy'] },
+  { id: 'corporate', label: 'Corporate', types: ['corporate'] },
+  { id: 'personal', label: 'Personal', types: ['personal'] },
+  { id: 'academy', label: 'Academy', types: ['academy'] },
+  { id: 'all', label: 'All', types: ['corporate', 'personal', 'academy'] },
 ];
 
 const TYPE_LABEL: Record<Project['type'], string> = {
-  product: 'Built & maintained',
-  professional: 'Client work',
+  corporate: 'Corporate project',
+  personal: 'Built & maintained',
   academy: 'Academy project',
 };
 
 const TYPE_ICON: Record<Project['type'], string> = {
-  product: 'fa-rocket',
-  professional: 'fa-building',
+  corporate: 'fa-building',
+  personal: 'fa-rocket',
   academy: 'fa-graduation-cap',
 };
 
@@ -36,7 +37,7 @@ const TYPE_ICON: Record<Project['type'], string> = {
 export class Portfolio {
   protected readonly data = inject(ContentService);
   protected readonly filters = PROJECT_FILTERS;
-  protected readonly activeFilter = signal<ProjectFilterId>('featured');
+  protected readonly activeFilter = signal<ProjectFilterId>('corporate');
 
   protected readonly visibleProjects = computed(() => {
     const projects = this.data.content()?.projects ?? [];

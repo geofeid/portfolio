@@ -32,8 +32,8 @@ export interface TimelineEntry {
 
 export interface Project {
   name: string;
-  /** product = shipped and maintained now, professional = client work, academy = coursework */
-  type: 'product' | 'professional' | 'academy';
+  /** corporate = client work, personal = shipped and maintained by me, academy = coursework */
+  type: 'corporate' | 'personal' | 'academy';
   year: string;
   org?: string;
   description: string;
