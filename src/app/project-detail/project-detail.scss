@@ -154,10 +154,10 @@
     }
   }
 
-  /* the narrative blocks read better full width */
-  .block:nth-child(1),
-  .block:nth-child(4),
-  .block:nth-child(5) {
+  /* narrative and list blocks read better full width; goal/role stay side by side */
+  .block:first-child,
+  .block:has(.bullets),
+  .block:last-child {
     grid-column: 1 / -1;
   }
 

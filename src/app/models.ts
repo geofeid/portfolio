@@ -38,6 +38,8 @@ export interface CaseStudy {
   goal: string;
   role: string;
   approach: string[];
+  /** What made the work hard — the part interviewers actually ask about. */
+  challenges?: string[];
   results: string[];
 }
 

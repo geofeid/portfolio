@@ -73,6 +73,17 @@
           <p>{{ cs.role }}</p>
         </section>
 
+        @if (cs.challenges?.length) {
+          <section class="block">
+            <h2>Challenges</h2>
+            <ul class="bullets">
+              @for (item of cs.challenges; track $index) {
+                <li>{{ item }}</li>
+              }
+            </ul>
+          </section>
+        }
+
         <section class="block">
           <h2>Approach</h2>
           <ul class="bullets">
