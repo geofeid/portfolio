@@ -10,7 +10,10 @@
       <span class="badge" appReveal="0">{{ labelFor(p) }}</span>
       <h1 appReveal="1">{{ p.name }}</h1>
       <p class="meta" appReveal="2">
-        {{ p.year }}@if (p.org) { <span> · {{ p.org }}</span> }
+        @if (p.year) { <span>{{ p.year }}</span> }
+        @if (p.year && p.org) { <span> · </span> }
+        @if (p.org) { <span>{{ p.org }}</span> }
+        @if (p.inDevelopment) { <span class="wip">In development</span> }
       </p>
       @if (p.caseStudy) {
         <p class="headline" appReveal="3">{{ p.caseStudy.headline }}</p>
@@ -38,10 +41,12 @@
               <dt>Status</dt>
               <dd>{{ f.status }}</dd>
             </div>
-            <div>
-              <dt>Year</dt>
-              <dd>{{ p.year }}</dd>
-            </div>
+            @if (p.year) {
+              <div>
+                <dt>Year</dt>
+                <dd>{{ p.year }}</dd>
+              </div>
+            }
           </dl>
         }
       }
@@ -59,7 +64,8 @@
         }
         @if (!p.live && !p.github) {
           <span class="no-link">
-            <i class="fas fa-lock"></i> Client project — code and screenshots are not public
+            <i class="fas" [class]="p.inDevelopment ? 'fas fa-hammer' : 'fas fa-lock'"></i>
+            {{ p.inDevelopment ? 'Not launched yet — link will follow' : 'Client project — code and screenshots are not public' }}
           </span>
         }
       </div>

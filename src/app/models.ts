@@ -48,8 +48,11 @@ export interface Project {
   /** URL segment for the detail page; absent means the card has no case study yet. */
   slug?: string;
   caseStudy?: CaseStudy;
-  /** corporate = client work, personal = shipped and maintained by me, academy = coursework */
-  type: 'corporate' | 'personal' | 'academy';
+  /** corporate = employed client work, freelance = my own clients,
+   *  personal = my own products, academy = coursework */
+  type: 'corporate' | 'freelance' | 'personal' | 'academy';
+  /** Set when a project is not launched yet; suppresses the live link. */
+  inDevelopment?: boolean;
   year: string;
   org?: string;
   description: string;

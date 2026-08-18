@@ -6,6 +6,7 @@ import { Reveal } from '../reveal.directive';
 
 const TYPE_LABEL: Record<Project['type'], string> = {
   corporate: 'Corporate project',
+  freelance: 'Freelance client',
   personal: 'Built & maintained',
   academy: 'Academy project',
 };

@@ -39,7 +39,10 @@
             <header>
               <h3>{{ p.name }}</h3>
               <p class="meta">
-                {{ p.year }}@if (p.org) { <span> · {{ p.org }}</span> }
+                @if (p.year) { <span>{{ p.year }}</span> }
+                @if (p.year && p.org) { <span> · </span> }
+                @if (p.org) { <span>{{ p.org }}</span> }
+                @if (p.inDevelopment) { <span class="wip">In development</span> }
               </p>
             </header>
 
@@ -79,7 +82,8 @@
               }
               @if (!p.live && !p.github) {
                 <span class="no-link">
-                  <i class="fas fa-lock"></i> Client project — code not public
+                  <i class="fas" [class]="p.inDevelopment ? 'fas fa-hammer' : 'fas fa-lock'"></i>
+                  {{ p.inDevelopment ? 'Not launched yet' : 'Client project — code not public' }}
                 </span>
               }
             </div>

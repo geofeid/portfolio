@@ -3,7 +3,7 @@ import { RouterLink } from '@angular/router';
 import { ContentService } from '../content.service';
 import { Project } from '../models';
 
-type ProjectFilterId = 'corporate' | 'personal' | 'academy' | 'all';
+type ProjectFilterId = 'corporate' | 'freelance' | 'personal' | 'academy' | 'all';
 
 interface ProjectFilter {
   id: ProjectFilterId;
@@ -13,19 +13,22 @@ interface ProjectFilter {
 
 const PROJECT_FILTERS: ProjectFilter[] = [
   { id: 'corporate', label: 'Corporate', types: ['corporate'] },
+  { id: 'freelance', label: 'Freelance', types: ['freelance'] },
   { id: 'personal', label: 'Personal', types: ['personal'] },
   { id: 'academy', label: 'Academy', types: ['academy'] },
-  { id: 'all', label: 'All', types: ['corporate', 'personal', 'academy'] },
+  { id: 'all', label: 'All', types: ['corporate', 'freelance', 'personal', 'academy'] },
 ];
 
 const TYPE_LABEL: Record<Project['type'], string> = {
   corporate: 'Corporate project',
+  freelance: 'Freelance client',
   personal: 'Built & maintained',
   academy: 'Academy project',
 };
 
 const TYPE_ICON: Record<Project['type'], string> = {
   corporate: 'fa-building',
+  freelance: 'fa-handshake',
   personal: 'fa-rocket',
   academy: 'fa-graduation-cap',
 };
