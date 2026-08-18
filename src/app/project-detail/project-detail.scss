@@ -607,3 +607,9 @@
     stroke-dasharray: var(--dash) 100;
   }
 }
+
+/* Light detail page: no rail, so the body carries the width itself. */
+.case-body.is-light {
+  margin-top: 3rem;
+  max-width: 62rem;
+}

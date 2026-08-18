@@ -64,7 +64,7 @@
             <div class="links">
               @if (p.slug) {
                 <a [routerLink]="['/portfolio', p.slug]" class="link-btn is-primary">
-                  <i class="fas fa-book-open"></i> Case study
+                  <i class="fas fa-book-open"></i> {{ p.caseStudy ? 'Case study' : 'Details' }}
                 </a>
               }
               @if (p.live) {

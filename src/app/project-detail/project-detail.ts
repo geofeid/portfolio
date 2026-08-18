@@ -125,13 +125,24 @@ export class ProjectDetail {
     ];
   });
 
-  /** Other work at the same employer, so a reader can keep going. */
+  /** Somewhere to go next: same employer, or failing that, same kind of project. */
   protected readonly related = computed(() => {
     const current = this.project();
     if (!current) return [];
-    return (this.data.content()?.projects ?? []).filter(
-      (p) => p.slug && p.slug !== current.slug && p.org === current.org && p.org
+    const others = (this.data.content()?.projects ?? []).filter(
+      (p) => p.slug && p.slug !== current.slug
     );
+    const sameOrg = current.org ? others.filter((p) => p.org === current.org) : [];
+    return sameOrg.length ? sameOrg : others.filter((p) => p.type === current.type).slice(0, 3);
+  });
+
+  protected readonly relatedHeading = computed(() => {
+    const current = this.project();
+    if (!current) return '';
+    const sameOrg = (this.data.content()?.projects ?? []).some(
+      (p) => p.slug && p.slug !== current.slug && p.org && p.org === current.org
+    );
+    return sameOrg ? `More from ${current.org}` : 'More projects';
   });
 
   @HostListener('window:scroll')
