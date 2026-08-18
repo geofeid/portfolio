@@ -95,7 +95,10 @@ export class ProjectDetail {
   protected readonly teamMarkers = computed(() => {
     const team = this.project()?.caseStudy?.facts?.team ?? '';
     const numbers = team.match(/\d+/g)?.map(Number) ?? [];
-    if (!numbers.length) return null;
+    // "Solo" carries no digits but is still a team size worth drawing.
+    if (!numbers.length) return /solo/i.test(team)
+      ? { solid: [0], outlined: [], extra: 0, label: team }
+      : null;
     const min = numbers[0];
     const max = numbers[1] ?? numbers[0];
     const capped = Math.min(max, 12);
