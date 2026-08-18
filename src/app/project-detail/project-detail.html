@@ -90,25 +90,25 @@
         </nav>
 
         <div class="case-body">
-          <section class="block" id="context" appReveal>
+          <section class="block reveal-left" id="context" appReveal>
             <h2>Context</h2>
             <p>{{ cs.context }}</p>
           </section>
 
           <div class="pair">
-            <section class="block" id="goal" appReveal="0">
+            <section class="block reveal-left" id="goal" appReveal="0">
               <h2>Goal</h2>
               <p>{{ cs.goal }}</p>
             </section>
 
-            <section class="block" appReveal="1">
+            <section class="block reveal-right" appReveal="1">
               <h2>My role</h2>
               <p>{{ cs.role }}</p>
             </section>
           </div>
 
           @if (cs.challenges?.length) {
-            <section class="block" id="challenges" appReveal>
+            <section class="block reveal-right" id="challenges" appReveal>
               <h2>Challenges</h2>
               <ul class="bullets">
                 @for (item of cs.challenges; track $index) {
@@ -118,7 +118,7 @@
             </section>
           }
 
-          <section class="block" id="approach" appReveal>
+          <section class="block reveal-left" id="approach" appReveal>
             <h2>Approach</h2>
             <ul class="bullets">
               @for (item of cs.approach; track $index) {
@@ -128,7 +128,7 @@
           </section>
 
           @if (cs.results.length) {
-            <section class="block is-results" id="results" appReveal>
+            <section class="block is-results reveal-scale" id="results" appReveal>
               <h2>Results</h2>
               <ul class="bullets">
                 @for (item of cs.results; track $index) {
@@ -139,7 +139,7 @@
           }
 
           @if (appliedSkills().length) {
-            <section class="block is-skills" id="skills" appReveal>
+            <section class="block is-skills reveal-right" id="skills" appReveal>
               <h2>Skills applied</h2>
               <p class="skills-note">My rated proficiency in the tools this project used.</p>
               <ul class="skill-chart">
@@ -156,13 +156,43 @@
             </section>
           }
 
-          <section class="block" id="stack" appReveal>
+          <section class="block is-stack" id="stack" appReveal>
             <h2>Built with</h2>
-            <ul class="tech">
-              @for (t of p.tech; track t) {
-                <li [appReveal]="$index">{{ t }}</li>
+            <div class="stack-grid">
+              <ul class="tech">
+                @for (t of p.tech; track t) {
+                  <li [appReveal]="$index">{{ t }}</li>
+                }
+              </ul>
+
+              @if (stackMix().length > 1) {
+                <figure class="donut" appReveal>
+                  <svg viewBox="0 0 42 42" role="img" aria-label="Stack composition by discipline">
+                    <circle class="donut-hole" cx="21" cy="21" r="15.9155"></circle>
+                    @for (seg of stackMix(); track seg.label) {
+                      <circle
+                        class="donut-segment"
+                        cx="21"
+                        cy="21"
+                        r="15.9155"
+                        [style.--dash]="seg.share"
+                        [style.--offset]="seg.offset"
+                        [style.--tint]="seg.tint"
+                      ></circle>
+                    }
+                    <text x="21" y="20.4" class="donut-count">{{ p.tech.length }}</text>
+                    <text x="21" y="24.6" class="donut-caption">tools</text>
+                  </svg>
+                  <figcaption>
+                    @for (seg of stackMix(); track seg.label) {
+                      <span class="key" [style.--tint]="seg.tint">
+                        <i></i>{{ seg.label }} <b>{{ seg.count }}</b>
+                      </span>
+                    }
+                  </figcaption>
+                </figure>
               }
-            </ul>
+            </div>
           </section>
         </div>
       </div>

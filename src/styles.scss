@@ -238,3 +238,19 @@ a {
     transition: none;
   }
 }
+
+/* Directional variants for the reveal directive. */
+.js-reveal .reveal.reveal-left {
+  transform: translateX(-30px);
+}
+.js-reveal .reveal.reveal-right {
+  transform: translateX(30px);
+}
+.js-reveal .reveal.reveal-scale {
+  transform: scale(0.96);
+}
+.js-reveal .reveal.reveal-left.is-revealed,
+.js-reveal .reveal.reveal-right.is-revealed,
+.js-reveal .reveal.reveal-scale.is-revealed {
+  transform: none;
+}

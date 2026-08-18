@@ -10,6 +10,16 @@ const TYPE_LABEL: Record<Project['type'], string> = {
   academy: 'Academy project',
 };
 
+/** Buckets a stack entry into a discipline, for the donut. */
+const STACK_GROUPS: { label: string; match: RegExp }[] = [
+  // Checked in order: tooling first, so "node:test" and "Headless Chrome" do not
+  // get claimed by the backend or frontend patterns.
+  { label: 'DevOps', match: /jenkins|docker|kubernetes|github action|github pages|azure|ci\/cd|bash|shell|pipeline|headless chrome|node:test|npm/i },
+  { label: 'Backend', match: /\.net|\bbff\b|asp\.net|entity framework|\bsql\b|c#|rest|\bapi|node\.js|express|php|laravel|mongo/i },
+  { label: 'Frontend', match: /angular|typescript|javascript|rxjs|signal|ngrx|redux|axios|\bscss\b|\bless\b|css|html|bootstrap|primeng|material|tailwind|react|jquery|flexbox|grid|vite/i },
+  { label: 'Design', match: /figma|sketch|adobe/i },
+];
+
 /** Loose match between a project's stack entry and a rated skill ("Angular 18" -> "Angular 2+"). */
 function normalise(value: string): string {
   return value.toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -58,6 +68,27 @@ export class ProjectDetail {
         return true;
       })
       .sort((a, b) => parseInt(b.percent) - parseInt(a.percent));
+  });
+
+  /** Stack composition by discipline — a count of what the project actually used. */
+  protected readonly stackMix = computed(() => {
+    const tech = this.project()?.tech ?? [];
+    if (tech.length < 2) return [];
+    const counts = new Map<string, number>();
+    for (const entry of tech) {
+      const group = STACK_GROUPS.find((g) => g.match.test(entry))?.label ?? 'Other';
+      counts.set(group, (counts.get(group) ?? 0) + 1);
+    }
+    const total = tech.length;
+    let offset = 0;
+    return [...counts.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .map(([label, count], index) => {
+        const share = (count / total) * 100;
+        const segment = { label, count, share, offset: 100 - offset + 25, tint: index };
+        offset += share;
+        return segment;
+      });
   });
 
   /** "8-10 people" -> ten markers, the last two outlined to show it is a range. */
