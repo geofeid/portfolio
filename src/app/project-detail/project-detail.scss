@@ -494,3 +494,10 @@
     transition: none;
   }
 }
+
+/* The page-entry animation scales the whole container from zero height, which
+   sweeps every element through the viewport and fires all the scroll reveals at
+   once. The reveals are the motion on this page, so the entry effect goes. */
+.container.is-case {
+  animation: none;
+}
