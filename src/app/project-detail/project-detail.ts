@@ -15,9 +15,9 @@ const TYPE_LABEL: Record<Project['type'], string> = {
 const STACK_GROUPS: { label: string; match: RegExp }[] = [
   // Checked in order: tooling first, so "node:test" and "Headless Chrome" do not
   // get claimed by the backend or frontend patterns.
-  { label: 'DevOps', match: /jenkins|docker|kubernetes|github action|github pages|azure|ci\/cd|bash|shell|pipeline|headless chrome|node:test|npm|vercel|netlify|vite|cmake/i },
-  { label: 'Backend', match: /\.net|\bbff\b|asp\.net|entity framework|\bsql\b|c#|rest|\bapi|node\.js|express|php|laravel|mongo|supabase|firebase|stripe|clerk|auth0|websocket|\btcp\b|c\+\+/i },
-  { label: 'Frontend', match: /angular|typescript|javascript|rxjs|signal|ngrx|redux|axios|\bscss\b|\bless\b|css|html|bootstrap|primeng|material|tailwind|react|jquery|flexbox|grid|recharts|jspdf/i },
+  { label: 'DevOps', match: /jenkins|docker|kubernetes|github action|github pages|azure|ci\/cd|bash|shell|pipeline|headless chrome|node:test|npm|vercel|netlify|vite|cmake|cloudflare|\br2\b/i },
+  { label: 'Backend', match: /\.net|\bbff\b|asp\.net|entity framework|\bsql\b|c#|rest|\bapi|node\.js|express|php|laravel|mongo|supabase|firebase|stripe|clerk|auth0|websocket|\btcp\b|c\+\+|postgres|neon|drizzle|prisma|\borm\b|\bzod\b/i },
+  { label: 'Frontend', match: /angular|next\.js|typescript|javascript|rxjs|signal|ngrx|redux|axios|\bscss\b|\bless\b|css|html|bootstrap|primeng|material|tailwind|react|jquery|flexbox|grid|recharts|jspdf/i },
   { label: 'Design', match: /figma|sketch|adobe/i },
 ];
 
