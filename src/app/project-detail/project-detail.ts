@@ -31,8 +31,11 @@ function matchSkill(tech: string, skills: Skill[]): Skill | undefined {
   return skills.find((skill) => {
     const name = normalise(skill.name);
     if (name === target) return true;
-    // "angular18" / "angularsignals" / "angularmaterial" all count as Angular
-    if (target.startsWith('angular') && name.startsWith('angular')) return true;
+    // "angular18" / "angularsignals" and "react19" / "reactjs" all count as
+    // their framework, however the stack entry spells the version.
+    for (const framework of ['angular', 'react']) {
+      if (target.startsWith(framework) && name.startsWith(framework)) return true;
+    }
     // Substring matching needs enough letters to mean anything: "C#" normalises
     // to "c", which would otherwise claim "C++17".
     if (Math.min(name.length, target.length) < 3) return false;
