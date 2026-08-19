@@ -40,6 +40,9 @@ export interface CaseStudy {
   approach: string[];
   /** What made the work hard — the part interviewers actually ask about. */
   challenges?: string[];
+  /** What the client actually received. Set on advisory work, where the
+   *  deliverable is the document rather than the running feature. */
+  deliverables?: string[];
   results: string[];
 }
 
@@ -57,6 +60,9 @@ export interface Project {
   org?: string;
   description: string;
   tech: string[];
+  /** Heading for the stack list. Defaults to "Built with"; set it when the
+   *  stack is someone else's code that I reviewed rather than wrote. */
+  techLabel?: string;
   highlights: string[];
   image?: string | null;
   github: string | null;

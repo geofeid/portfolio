@@ -613,3 +613,8 @@
   margin-top: 3rem;
   max-width: 62rem;
 }
+
+/* Taller stand-in when a project has no screenshot yet. */
+.hero-shot.is-wip .wip-shot {
+  min-height: 260px;
+}

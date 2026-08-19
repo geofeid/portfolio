@@ -15,9 +15,9 @@ const TYPE_LABEL: Record<Project['type'], string> = {
 const STACK_GROUPS: { label: string; match: RegExp }[] = [
   // Checked in order: tooling first, so "node:test" and "Headless Chrome" do not
   // get claimed by the backend or frontend patterns.
-  { label: 'DevOps', match: /jenkins|docker|kubernetes|github action|github pages|azure|ci\/cd|bash|shell|pipeline|headless chrome|node:test|npm/i },
-  { label: 'Backend', match: /\.net|\bbff\b|asp\.net|entity framework|\bsql\b|c#|rest|\bapi|node\.js|express|php|laravel|mongo/i },
-  { label: 'Frontend', match: /angular|typescript|javascript|rxjs|signal|ngrx|redux|axios|\bscss\b|\bless\b|css|html|bootstrap|primeng|material|tailwind|react|jquery|flexbox|grid|vite/i },
+  { label: 'DevOps', match: /jenkins|docker|kubernetes|github action|github pages|azure|ci\/cd|bash|shell|pipeline|headless chrome|node:test|npm|vercel|netlify|vite|cmake/i },
+  { label: 'Backend', match: /\.net|\bbff\b|asp\.net|entity framework|\bsql\b|c#|rest|\bapi|node\.js|express|php|laravel|mongo|supabase|firebase|stripe|clerk|auth0|websocket|\btcp\b|c\+\+/i },
+  { label: 'Frontend', match: /angular|typescript|javascript|rxjs|signal|ngrx|redux|axios|\bscss\b|\bless\b|css|html|bootstrap|primeng|material|tailwind|react|jquery|flexbox|grid|recharts|jspdf/i },
   { label: 'Design', match: /figma|sketch|adobe/i },
 ];
 
@@ -33,6 +33,9 @@ function matchSkill(tech: string, skills: Skill[]): Skill | undefined {
     if (name === target) return true;
     // "angular18" / "angularsignals" / "angularmaterial" all count as Angular
     if (target.startsWith('angular') && name.startsWith('angular')) return true;
+    // Substring matching needs enough letters to mean anything: "C#" normalises
+    // to "c", which would otherwise claim "C++17".
+    if (Math.min(name.length, target.length) < 3) return false;
     return name.includes(target) || target.includes(name);
   });
 }
@@ -120,9 +123,10 @@ export class ProjectDetail {
       { id: 'goal', label: 'Goal' },
       ...(cs.challenges?.length ? [{ id: 'challenges', label: 'Challenges' }] : []),
       { id: 'approach', label: 'Approach' },
+      ...(cs.deliverables?.length ? [{ id: 'deliverables', label: 'Delivered' }] : []),
       ...(cs.results.length ? [{ id: 'results', label: 'Results' }] : []),
       ...(this.appliedSkills().length ? [{ id: 'skills', label: 'Skills' }] : []),
-      { id: 'stack', label: 'Stack' },
+      ...(this.project()?.tech.length ? [{ id: 'stack', label: 'Stack' }] : []),
     ];
   });
 

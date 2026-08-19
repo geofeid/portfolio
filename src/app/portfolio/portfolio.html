@@ -27,6 +27,12 @@
           <div class="thumb">
             @if (p.image) {
               <img [src]="'img/' + p.image" [alt]="p.name + ' screenshot'" loading="lazy" />
+            } @else if (p.inDevelopment) {
+              <div class="wip-shot">
+                <i class="fas fa-hammer"></i>
+                <b>Under construction</b>
+                <small>screenshot when it ships</small>
+              </div>
             } @else {
               <div class="thumb-placeholder">
                 <i class="fas" [class]="'fas ' + iconFor(p)"></i>

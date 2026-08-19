@@ -75,6 +75,14 @@
       <div class="hero-shot" appReveal>
         <img [src]="'img/' + p.image" [alt]="p.name + ' screenshot'" />
       </div>
+    } @else if (p.inDevelopment) {
+      <div class="hero-shot is-wip" appReveal>
+        <div class="wip-shot">
+          <i class="fas fa-hammer"></i>
+          <b>Under construction</b>
+          <small>screenshot when it ships</small>
+        </div>
+      </div>
     }
 
     @if (p.caseStudy; as cs) {
@@ -133,6 +141,17 @@
             </ul>
           </section>
 
+          @if (cs.deliverables?.length) {
+            <section class="block reveal-right" id="deliverables" appReveal>
+              <h2>What the client received</h2>
+              <ul class="bullets">
+                @for (item of cs.deliverables; track $index) {
+                  <li [appReveal]="$index">{{ item }}</li>
+                }
+              </ul>
+            </section>
+          }
+
           @if (cs.results.length) {
             <section class="block is-results reveal-scale" id="results" appReveal>
               <h2>Results</h2>
@@ -162,15 +181,75 @@
             </section>
           }
 
-          <section class="block is-stack" id="stack" appReveal>
-            <h2>Built with</h2>
+          @if (p.tech.length) {
+            <section class="block is-stack" id="stack" appReveal>
+              <h2>{{ p.techLabel || 'Built with' }}</h2>
+              <div class="stack-grid">
+                <ul class="tech">
+                  @for (t of p.tech; track t) {
+                    <li [appReveal]="$index">{{ t }}</li>
+                  }
+                </ul>
+  
+                @if (stackMix().length > 1) {
+                  <figure class="donut" appReveal>
+                    <svg viewBox="0 0 42 42" role="img" aria-label="Stack composition by discipline">
+                      <circle class="donut-hole" cx="21" cy="21" r="15.9155"></circle>
+                      @for (seg of stackMix(); track seg.label) {
+                        <circle
+                          class="donut-segment"
+                          cx="21"
+                          cy="21"
+                          r="15.9155"
+                          [style.--dash]="seg.share"
+                          [style.--offset]="seg.offset"
+                          [style.--tint]="seg.tint"
+                        ></circle>
+                      }
+                      <text x="21" y="20.4" class="donut-count">{{ p.tech.length }}</text>
+                      <text x="21" y="24.6" class="donut-caption">tools</text>
+                    </svg>
+                    <figcaption>
+                      @for (seg of stackMix(); track seg.label) {
+                        <span class="key" [style.--tint]="seg.tint">
+                          <i></i>{{ seg.label }} <b>{{ seg.count }}</b>
+                        </span>
+                      }
+                    </figcaption>
+                  </figure>
+                }
+              </div>
+            </section>
+          }
+        </div>
+      </div>
+    } @else {
+      <div class="case-body is-light">
+        <section class="block reveal-left" appReveal>
+          <h2>About</h2>
+          <p>{{ p.description }}</p>
+        </section>
+
+        @if (p.highlights.length) {
+          <section class="block reveal-right" appReveal>
+            <h2>What it involved</h2>
+            <ul class="bullets">
+              @for (item of p.highlights; track $index) {
+                <li [appReveal]="$index">{{ item }}</li>
+              }
+            </ul>
+          </section>
+        }
+
+        @if (p.tech.length) {
+          <section class="block is-stack" appReveal>
+            <h2>{{ p.techLabel || 'Built with' }}</h2>
             <div class="stack-grid">
               <ul class="tech">
                 @for (t of p.tech; track t) {
                   <li [appReveal]="$index">{{ t }}</li>
                 }
               </ul>
-
               @if (stackMix().length > 1) {
                 <figure class="donut" appReveal>
                   <svg viewBox="0 0 42 42" role="img" aria-label="Stack composition by discipline">
@@ -200,63 +279,7 @@
               }
             </div>
           </section>
-        </div>
-      </div>
-    } @else {
-      <div class="case-body is-light">
-        <section class="block reveal-left" appReveal>
-          <h2>About</h2>
-          <p>{{ p.description }}</p>
-        </section>
-
-        @if (p.highlights.length) {
-          <section class="block reveal-right" appReveal>
-            <h2>What it involved</h2>
-            <ul class="bullets">
-              @for (item of p.highlights; track $index) {
-                <li [appReveal]="$index">{{ item }}</li>
-              }
-            </ul>
-          </section>
         }
-
-        <section class="block is-stack" appReveal>
-          <h2>Built with</h2>
-          <div class="stack-grid">
-            <ul class="tech">
-              @for (t of p.tech; track t) {
-                <li [appReveal]="$index">{{ t }}</li>
-              }
-            </ul>
-            @if (stackMix().length > 1) {
-              <figure class="donut" appReveal>
-                <svg viewBox="0 0 42 42" role="img" aria-label="Stack composition by discipline">
-                  <circle class="donut-hole" cx="21" cy="21" r="15.9155"></circle>
-                  @for (seg of stackMix(); track seg.label) {
-                    <circle
-                      class="donut-segment"
-                      cx="21"
-                      cy="21"
-                      r="15.9155"
-                      [style.--dash]="seg.share"
-                      [style.--offset]="seg.offset"
-                      [style.--tint]="seg.tint"
-                    ></circle>
-                  }
-                  <text x="21" y="20.4" class="donut-count">{{ p.tech.length }}</text>
-                  <text x="21" y="24.6" class="donut-caption">tools</text>
-                </svg>
-                <figcaption>
-                  @for (seg of stackMix(); track seg.label) {
-                    <span class="key" [style.--tint]="seg.tint">
-                      <i></i>{{ seg.label }} <b>{{ seg.count }}</b>
-                    </span>
-                  }
-                </figcaption>
-              </figure>
-            }
-          </div>
-        </section>
       </div>
     }
 
