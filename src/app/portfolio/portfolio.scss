@@ -10,7 +10,9 @@
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 2rem;
   margin-top: 1rem;
-  align-items: start;
+  /* Every card the same height — the card is a teaser, the case study holds
+     the detail, so the text below is clamped rather than left to run. */
+  grid-auto-rows: 1fr;
 
   .portfolio-item {
     display: flex;
@@ -94,10 +96,17 @@
       h3 {
         font-size: 1.25rem;
         line-height: 1.6rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
       }
 
       .meta {
         margin-top: 0.25rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         font-size: 0.85rem;
         color: var(--color-grey-2);
         text-transform: uppercase;
@@ -108,6 +117,10 @@
         color: var(--color-grey-2);
         line-height: 1.8rem;
         font-size: 0.95rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
       }
 
       .highlights {
@@ -115,12 +128,21 @@
         flex-direction: column;
         gap: 0.45rem;
 
+        /* Three at most on the card; the rest live in the case study. */
+        li:nth-child(n + 4) {
+          display: none;
+        }
+
         li {
           position: relative;
           padding-left: 1.1rem;
           font-size: 0.9rem;
           line-height: 1.6rem;
           color: var(--color-grey-2);
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
 
           &::before {
             content: "";
@@ -138,8 +160,11 @@
         display: flex;
         flex-wrap: wrap;
         gap: 0.4rem;
-        margin-top: auto;
         padding-top: 0.4rem;
+        /* Two rows of chips at most, so a ten-tool stack cannot outgrow a
+           three-tool one. The full list is on the case study. */
+        max-height: 4.4rem;
+        overflow: hidden;
 
         li {
           padding: 0.2rem 0.65rem;
@@ -155,6 +180,8 @@
         display: flex;
         flex-wrap: wrap;
         gap: 0.6rem;
+        /* Buttons line up along the bottom edge across the whole grid. */
+        margin-top: auto;
         padding-top: 0.6rem;
 
         .link-btn {
