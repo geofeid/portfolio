@@ -304,3 +304,13 @@
     grid-template-columns: repeat(1, 1fr);
   }
 }
+
+/* One line under a section title, saying where the list below comes from. */
+.section-note {
+  margin: -2.5rem auto 2rem;
+  max-width: 46rem;
+  text-align: center;
+  font-size: 0.95rem;
+  line-height: 1.7rem;
+  color: var(--color-grey-2);
+}
