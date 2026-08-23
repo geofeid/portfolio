@@ -1,9 +1,9 @@
 import { Injectable, signal } from '@angular/core';
 import { PortfolioContent } from './models';
 
-// Content lives in the Online_CV repo and is published at /OnlineCV/content.json
+// Content lives in the Online_CV repo and is published at /Online_CV/content.json
 // (same origin on geofeid.github.io; proxied to localhost:5500 in dev).
-const CONTENT_URL = '/OnlineCV/content.json';
+const CONTENT_URL = '/Online_CV/content.json';
 
 @Injectable({ providedIn: 'root' })
 export class ContentService {

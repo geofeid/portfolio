@@ -1,4 +1,4 @@
-// Shape of /OnlineCV/content.json — owned by the Online_CV repo.
+// Shape of /Online_CV/content.json — owned by the Online_CV repo.
 
 export interface Stat {
   value: string;
