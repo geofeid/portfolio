@@ -8,7 +8,7 @@ export interface Stat {
 export interface Skill {
   name: string;
   percent: string;
-  category: 'frontend' | 'backend' | 'devops' | 'other';
+  category: 'frontend' | 'backend' | 'devops' | 'cms' | 'ai';
 }
 
 export interface TimelineSection {

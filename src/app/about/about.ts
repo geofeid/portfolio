@@ -28,8 +28,9 @@ const SKILL_FILTERS: SkillFilter[] = [
   { id: 'frontend', label: 'Front end', categories: ['frontend'] },
   { id: 'backend', label: 'Back end', categories: ['backend'] },
   { id: 'devops', label: 'DevOps', categories: ['devops'] },
-  { id: 'other', label: 'Other', categories: ['other'] },
-  { id: 'all', label: 'All', categories: ['frontend', 'backend', 'devops', 'other'] },
+  { id: 'cms', label: 'CMS', categories: ['cms'] },
+  { id: 'ai', label: 'AI', categories: ['ai'] },
+  { id: 'all', label: 'All', categories: ['frontend', 'backend', 'devops', 'cms', 'ai'] },
 ];
 
 @Component({
