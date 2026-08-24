@@ -186,7 +186,12 @@
     }
 
     .tl-link {
-      margin-top: 0.8rem;
+      /* Sits on the same row as the See more toggle, so both need the same
+         top margin and a gap between them. */
+      display: inline-flex;
+      align-items: center;
+      margin-top: 1rem;
+      margin-right: 1.6rem;
       color: var(--color-secondary);
       font-weight: 500;
       border-bottom: 1px solid transparent;
